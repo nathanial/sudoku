@@ -1,16 +1,34 @@
 package org.nrh.sudoku
 import scala.collection.mutable.{ListBuffer}
-import org.nrh.scream.{Matrix,Problem,Var}
+import org.nrh.scream._
 import org.nrh.scream.Domain._
 import org.nrh.scream.IntervalImplicits._
 import org.nrh.scream.Util._
 
 class SudokuPuzzle(matrix:Matrix[Int]) {
 
-  def solve:Matrix[BigInt] = {
-    val p = Problem.sudoku
+  def solve:Matrix[BigInt] = solve(false)
+
+  private def solve(generatorMode:Boolean):Matrix[BigInt] = {
+    var p:Problem = null
+    var puzzle: Matrix[Var] = null
+    def printSudoku(state:State) {
+      val vars = state.assignments.map(item => item._1).toList
+      bind(vars){
+	state.assignToVars
+	println(new Matrix(puzzle.map(toInt)))
+      }
+    }
+
+    if(generatorMode){
+      p = Problem.randomized(Math.MAX_INT,printSudoku(_))
+    }
+    else {
+      p = Problem.standard(Math.MAX_INT,printSudoku(_))
+    }
+
     val toVar = new VarTransformer(p)
-    val puzzle = new Matrix[Var](matrix.map(toVar))
+    puzzle = new Matrix[Var](matrix.map(toVar))
 
     puzzle.squares.foreach(s => p.allDiff(s:_*))
     puzzle.rows.foreach(r => p.allDiff(r:_*))
@@ -22,7 +40,12 @@ class SudokuPuzzle(matrix:Matrix[Int]) {
     return new Matrix(puzzle.map(toInt))
   }
 
-  private def toInt(v:Var):BigInt = v.domain.toBigInt
+  private def toInt(v:Var):BigInt = {
+    if(v.isAssigned)
+      v.domain.toBigInt
+    else 
+      0
+  }
   
   private class VarTransformer(p:Problem) extends Function[Int,Var]   {
     var (x,y) = (0,0)
@@ -72,8 +95,11 @@ object SudokuPuzzle {
 
   def generateComplete:Matrix[BigInt] = {
     val puzzle = generate
-    println(puzzle.toString)
-    return puzzle.solve
+    try{
+      return puzzle.solve(true)
+    }catch{
+      case e => return generateComplete
+    }
   }
     
 }

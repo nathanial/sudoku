@@ -120,7 +120,7 @@ class SudokuTest extends Suite with Logging {
     logger.info(answer.toString)
   }
 
-/*  def testSudoku5() {
+  def testSudoku5() {
     logger.info("begin test Sudoku5")
     val puzzle = SudokuPuzzle.generate
     logger.info("puzzle")
@@ -130,30 +130,11 @@ class SudokuTest extends Suite with Logging {
     logger.info(answer.toString)
   }
 
-  def testSudoku7() {
-    logger.info("begin test Sudoku7")
-    val puzzle = SudokuPuzzle(Array(
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 
-      0, 0, 0, 0, 0, 3, 0, 8, 5, 
-      0, 0, 1, 0, 2, 0, 0, 0, 0, 
-      0, 0, 0, 5, 0, 7, 0, 0, 0, 
-      0, 0, 4, 0, 0, 0, 1, 0, 0, 
-      0, 9, 0, 0, 0, 0, 0, 0, 0, 
-      5, 0, 0, 0, 0, 0, 0, 7, 3, 
-      0, 0, 2, 0, 1, 0, 0, 0, 0, 
-      0, 0, 0, 0, 4, 0, 0, 0, 9))
-
-    val answer = puzzle.solve
-    
-    logger.info(answer.toString)
-  }
-      
-
   def testSudoku6() {
    logger.info("begin test Sudoku6")
     for(_ <- 1 to 10) {
       logger.info(SudokuPuzzle.generateComplete.toString)
     }
   }
-  */
+
 }
