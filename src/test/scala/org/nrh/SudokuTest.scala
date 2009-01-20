@@ -136,5 +136,4 @@ class SudokuTest extends Suite with Logging {
       logger.info(SudokuPuzzle.generateComplete.toString)
     }
   }
-
 }

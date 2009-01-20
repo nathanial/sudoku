@@ -19,12 +19,13 @@ class SudokuPuzzle(matrix:Matrix[Int]) {
 	println(new Matrix(puzzle.map(toInt)))
       }
     }
+    def doNothing(state:State) = {}
 
     if(generatorMode){
-      p = Problem.randomized(Math.MAX_INT,printSudoku(_))
+      p = Problem.randomized(Math.MAX_INT,doNothing)
     }
     else {
-      p = Problem.standard(Math.MAX_INT,printSudoku(_))
+      p = Problem.standard(Math.MAX_INT,doNothing)
     }
 
     val toVar = new VarTransformer(p)
@@ -95,11 +96,7 @@ object SudokuPuzzle {
 
   def generateComplete:Matrix[BigInt] = {
     val puzzle = generate
-    try{
-      return puzzle.solve(true)
-    }catch{
-      case e => return generateComplete
-    }
+    return puzzle.solve(true)
   }
     
 }
