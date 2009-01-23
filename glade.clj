@@ -37,12 +37,12 @@
    (let [left-col (dec-zero col)
 	 top-row (dec-zero row)]
      [:packing 
-       (when (not (= left-col 0)) (property :left_attach left-col))
-       (when (not (= col 1)) (property :right_attach col))
-       (when (not (= top-row 0)) (property :top_attach top-row))
-       (when (not (= row 1)) (property :bottom_attach row))
-       (property :x_options "GTK_EXPAND")
-       (property :y_options "GTK_EXPAND")])])
+      (when (not (= left-col 0)) (property :left_attach left-col))
+      (when (not (= col 1)) (property :right_attach col))
+      (when (not (= top-row 0)) (property :top_attach top-row))
+      (when (not (= row 1)) (property :bottom_attach row))
+      (property :x_options "GTK_EXPAND")
+      (property :y_options "GTK_EXPAND")])])
 
 
 (defn sudoku-square-row [row init]
@@ -77,14 +77,21 @@
 (defn horizontal-separator [n]
   (widget "GtkHSeparator" (str "hseparator" n) [[:visible true]]))
 
+(defn button [id label]
+  (widget "GtkButton" id
+	  [[:visible true]
+	   [:can_focus true]
+	   [:receives_default true]
+	   [:label label]
+	   [:response_id 0]]))
+
 (defn sudoku []
   (with-local-vars [counter 0]
     (glade-interface
-     (window "appwindow" 
-	     [[:resizable false]
-	      [:window_position "GTK_WIN_POS_CENTER"]]
+     (window "appwindow" [[:resizable false] [:window_position "GTK_WIN_POS_CENTER"]]
 	     (vertical-box 
-	      "topmost-vbox"
+	     "topmost-vbox"
+	     (conj
 	      (loop [x 0, row-acc []]
 		(if (>= x 3)
 		  row-acc
@@ -99,11 +106,19 @@
 			       col-acc
 			       (do
 				 (var-set counter (inc (var-get counter)))
-				 (binding [starting-row (* x 3)
-					   starting-col (* y 3)]
-				   (recur 
-				    (inc y)
-				    (conj col-acc
-					  [:child (sudoku-table 
-						   (var-get counter)
-						   [(* x 3) (* y 3)])])))))))])))))))))
+				 (recur 
+				  (inc y)
+				  (conj col-acc
+					[:child (sudoku-table 
+						 (var-get counter)
+						 [(* x 3) (* y 3)])]
+					[:child (vertical-separator (var-get counter))]))))))]
+			 [:child (horizontal-separator (var-get counter))]))))
+	      [:child 
+	       (horizontal-box 
+		"button-box"
+		[[:child (button "correct?" "Correct?")]
+		 [:child (button "solve" "Solve")
+		  [:packing
+		   (property "position" 1)]]])]))))))
+		 
