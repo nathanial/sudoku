@@ -22,10 +22,10 @@ class SudokuPuzzle(matrix:Matrix[Int]) {
     def doNothing(state:State) = {}
 
     if(generatorMode){
-      p = Problem.randomized(Math.MAX_INT,doNothing)
+      p = Problem.randomized(Math.MAX_INT)
     }
     else {
-      p = Problem.standard(Math.MAX_INT,doNothing)
+      p = Problem.standard(Math.MAX_INT)
     }
 
     val toVar = new VarTransformer(p)

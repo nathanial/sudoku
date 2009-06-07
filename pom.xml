@@ -5,9 +5,6 @@
   <artifactId>sudoku</artifactId>
   <version>1.0-SNAPSHOT</version>
   <inceptionYear>2008</inceptionYear>
-  <properties>
-    <scala.version>2.7.3.RC1</scala.version>
-  </properties>
 
   <repositories>
     <repository>
@@ -29,7 +26,7 @@
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
-      <version>${scala.version}</version>
+      <version>2.7.3</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -80,6 +77,7 @@
       <plugin>
         <groupId>org.scala-tools</groupId>
         <artifactId>maven-scala-plugin</artifactId>
+	<version>2.10</version>
         <executions>
           <execution>
             <goals>
@@ -88,9 +86,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <scalaVersion>${scala.version}</scalaVersion>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -117,7 +112,7 @@
         <groupId>org.scala-tools</groupId>
         <artifactId>maven-scala-plugin</artifactId>
         <configuration>
-          <scalaVersion>${scala.version}</scalaVersion>
+          <scalaVersion>2.7.3</scalaVersion>
         </configuration>
       </plugin>
     </plugins>
